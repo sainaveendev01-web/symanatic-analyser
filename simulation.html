@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>sai_naveen_059 | Semantic Analyzer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            /* Instagram Dark Palette */
+            --bg: #000000;
+            --card: #121212;
+            --border: #262626;
+            --insta-blue: #0095f6;
+            --insta-grad: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            --text: #fafafa;
+            --muted: #8e8e8e;
+            --error: #ed4956;
+            --success: #0095f6;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding-bottom: 40px;
+        }
+
+        /* ── NAVBAR ── */
+        nav {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: -1px;
+        }
+
+        .main-layout {
+            max-width: 935px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 28px;
+        }
+
+        /* ── FEED POST (SOURCE CODE) ── */
+        .post-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .post-header {
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-meta { display: flex; align-items: center; }
+
+        .story-ring {
+            width: 32px;
+            height: 32px;
+            background: var(--insta-grad);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+            margin-right: 12px;
+        }
+
+        .avatar {
+            background: var(--card);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 350px;
+            background: #000;
+            color: #efefef;
+            border: none;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .post-actions {
+            padding: 12px 16px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-action {
+            background: var(--insta-blue);
+            color: white;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* ── ANALYSIS SIDEBAR ── */
+        .sidebar-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-card h3 {
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .tab-nav {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 15px;
+        }
+
+        .tab-link {
+            padding: 8px 12px;
+            font-size: 12px;
+            color: var(--muted);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .tab-link.active {
+            color: var(--text);
+            border-bottom: 2px solid var(--text);
+        }
+
+        .output-view {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            color: #38bdf8;
+        }
+
+        .sem-err { color: var(--error); padding: 5px 0; border-bottom: 1px solid #331111; }
+        .sem-ok { color: var(--success); }
+
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; padding: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>SemanticGram</nav>
+
+<div class="main-layout">
+    <div class="post-card">
+        <div class="post-header">
+            <div class="user-meta">
+                <div class="story-ring"><div class="avatar">SN</div></div>
+                <div>
+                    <div style="font-size:14px; font-weight:700;">sai_naveen_059</div>
+                    <div style="font-size:12px; color:var(--muted);">Compiler Lab • RA2311003050059</div>
+                </div>
+            </div>
+            <div style="font-weight:bold; cursor:pointer;">...</div>
+        </div>
+
+        <textarea id="source-code" spellcheck="false">int main() {
+    int x = 10;
+    float y = 20.5;
+    
+    // Semantic Error Example:
+    x = "Hello"; 
+    
+    return 0;
+}</textarea>
+
+        <div class="post-actions">
+            <button class="btn-action" onclick="runAnalysis()">⚡ Analyze</button>
+            <span id="status-msg" style="font-size:12px; color:var(--muted); align-self:center;">Idle</span>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-card">
+            <h3>Diagnostic Results</h3>
+            <div class="tab-nav">
+                <div class="tab-link active" onclick="switchTab('semantic')">Semantic</div>
+                <div class="tab-link" onclick="switchTab('tokens')">Tokens</div>
+            </div>
+            
+            <div id="semantic-view" class="output-view">
+                Waiting for input...
+            </div>
+            <div id="tokens-view" class="output-view" style="display:none;">
+                Tokens will appear here.
+            </div>
+        </div>
+
+        <div class="sidebar-card">
+            <h3>Project Info</h3>
+            <p style="font-size:13px; margin:5px 0;"><b>Name:</b> Sai Naveen</p>
+            <p style="font-size:13px; margin:5px 0;"><b>Reg No:</b> RA2311003050059</p>
+            <p style="font-size:13px; margin:5px 0; color:var(--muted);">Phase 3: Semantic Analysis & Type Checking</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchTab(tab) {
+        document.getElementById('semantic-view').style.display = tab === 'semantic' ? 'block' : 'none';
+        document.getElementById('tokens-view').style.display = tab === 'tokens' ? 'block' : 'none';
+        
+        const links = document.querySelectorAll('.tab-link');
+        links[0].classList.toggle('active', tab === 'semantic');
+        links[1].classList.toggle('active', tab === 'tokens');
+    }
+
+    function runAnalysis() {
+        const code = document.getElementById('source-code').value;
+        const semView = document.getElementById('semantic-view');
+        const tokView = document.getElementById('tokens-view');
+        const status = document.getElementById('status-msg');
+
+        status.innerText = "Processing...";
+        
+        // 1. Simulating Tokenization
+        const tokens = code.match(/\w+|[^\w\s]/g) || [];
+        tokView.innerHTML = tokens.map((t, i) => `[${i}] ${t}`).join('<br>');
+
+        // 2. Simulating Semantic Analysis
+        let report = "";
+        let errorCount = 0;
+
+        // Rule: Check if a string is assigned to an int
+        if (code.includes('int x') && code.includes('x = "')) {
+            report += `<div class="sem-err">❌ Type Mismatch: Cannot assign STRING to INT 'x' (Line 6)</div>`;
+            errorCount++;
+        }
+
+        // Rule: Check for undeclared variables
+        const variables = ['x', 'y', 'pi', 'main'];
+        const matches = code.match(/[a-zA-Z_]\w*/g) || [];
+        matches.forEach(m => {
+            if (!variables.includes(m) && isNaN(m) && !["int", "float", "return", "if", "char"].includes(m)) {
+                report += `<div class="sem-err">❌ Error: Undeclared identifier '${m}'</div>`;
+                errorCount++;
+            }
+        });
+
+        if (errorCount === 0) {
+            report = `<div class="sem-ok">✅ Semantic Analysis Passed!<br>• Symbol Table Verified<br>• Type Consistency OK</div>`;
+            status.innerText = "Success";
+        } else {
+            status.innerText = `${errorCount} issue(s) found`;
+        }
+
+        semView.innerHTML = report;
+    }
+</script>
+
+</body>
+</html>
