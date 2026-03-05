@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>sai_naveen_059 | Semantic Analyzer</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --card: #121212;
+            --border: #262626;
+            --insta-blue: #0095f6;
+            --insta-grad: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            --text: #fafafa;
+            --muted: #8e8e8e;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .profile-container {
+            width: 100%;
+            max-width: 380px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .story-ring {
+            width: 110px;
+            height: 110px;
+            background: var(--insta-grad);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px;
+        }
+
+        .profile-pic {
+            background: var(--bg);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        h1 { font-size: 22px; font-weight: 600; margin: 10px 0 5px; }
+        
+        .reg-no { 
+            color: var(--muted); 
+            font-size: 15px; 
+            margin-bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .bio {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            color: #efefef;
+        }
+
+        .btn-launch {
+            background-color: var(--insta-blue);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            display: block;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .btn-launch:hover {
+            opacity: 0.9;
+            transform: scale(0.98);
+        }
+
+        .footer-note {
+            margin-top: 15px;
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="story-ring">
+            <div class="profile-pic">SN</div>
+        </div>
+
+        <h1>sai_naveen_059</h1>
+        <div class="reg-no">RA2311003050059</div>
+
+        <p class="bio">
+            <b>Semantic Analysis Phase</b><br>
+            Type Checking • Scope Verification<br>
+            Compiler Design Laboratory
+        </p>
+
+        <a href="simulation.html" class="btn-launch">Run Semantic Check</a>
+        
+        <p class="footer-note">Phase 3: Validation</p>
+    </div>
+
+</body>
+</html>
